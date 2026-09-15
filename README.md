@@ -79,3 +79,50 @@ The system was tested under normal voice, loud voice, low voice, fast speech, sl
 
 ### Result
 Speech-to-text conversion was successfully implemented and tested with appropriate error handling.
+
+
+## Task 7 – Language Detection and Basic Text Translation
+
+### Objective
+
+Implement language detection and basic text translation for recognized speech text using Python and a translation library/API.
+
+### Languages Tested
+
+* English (`en`)
+* Hindi (`hi`)
+* Marathi (`mr`)
+* Telugu (`te`)
+* Tamil (`ta`)
+
+### Test Results
+
+#### 1. English → Marathi
+
+![English to Marathi](Dataset/audio/screenshots/English%20to%20marathi%20text.png)
+
+#### 2. Marathi → English
+
+![Marathi to English](Dataset/audio/screenshots/Marathi%20to%20english%20text.png)
+
+#### 3. English → Tamil
+
+![English to Tamil](Dataset/audio/screenshots/english%20to%20tamil%20text.png)
+
+#### 4. Hindi → English
+
+![Hindi to English](Dataset/audio/screenshots/hindi%20to%20english%20text.png)
+
+#### 5. Telugu → English & Tamil → English
+
+![Telugu to English and Tamil to English](Dataset/audio/screenshots/telugu%20to%20english%20%26%20Tamil%20to%20english%20text.png)
+
+### Implementation Files
+
+* `Dataset/Python/language_detection.py`
+* `Dataset/Python/translator.py`
+
+### Outcome
+
+Successfully implemented and tested language detection and basic text translation for multiple languages.
+
