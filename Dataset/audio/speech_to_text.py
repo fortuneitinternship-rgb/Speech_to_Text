@@ -7,10 +7,10 @@ print("Starting Speech-to-Text...")
 try:
     with sr.Microphone() as source:
         print("Adjusting for background noise...")
-        recognizer.adjust_for_ambient_noise(source, duration=1)
+        recognizer.adjust_for_ambient_noise(source)
 
         print("Speak now...")
-        audio = recognizer.listen(source, timeout=10, phrase_time_limit=10)
+        audio = recognizer.listen(source)
 
         print("Processing speech...")
 

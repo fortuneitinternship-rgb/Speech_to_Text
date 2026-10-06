@@ -16,7 +16,7 @@ Digital Audio
 
 Digital audio represents sound as numerical data that a computer can process. The analog signal is converted into digital samples using an analog-to-digital converter.
 
-3. Amplitude and Frequency
+3. Amplitude and Frequency 
 
 Amplitude represents the strength or loudness of a sound.
 
