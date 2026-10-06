@@ -49,42 +49,58 @@ st.markdown("""
 .main-title {
     font-size: 46px;
     font-weight: 800;
-    margin-bottom: 0;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
 }
 
 .subtitle {
     font-size: 18px;
-    opacity: 0.70;
-    margin-bottom: 25px;
+    opacity: 0.72;
+    margin-bottom: 28px;
 }
 
 .section-title {
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 750;
+    margin-top: 10px;
+    margin-bottom: 18px;
 }
 
 div[data-testid="stMetric"] {
-    border-radius: 12px;
-    padding: 15px;
-    border: 1px solid rgba(128,128,128,0.20);
+    border-radius: 16px;
+    padding: 18px 20px;
+    border: 1px solid rgba(128,128,128,0.18);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
 }
 
 div[data-testid="stMetricValue"] {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 750;
 }
 
 div[data-testid="stMetricLabel"] {
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.78;
 }
 
 .stButton > button {
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 10px;
+    font-weight: 650;
+    padding: 8px 18px;
 }
 
 [data-testid="stSidebar"] {
-    border-right: 1px solid rgba(128,128,128,0.20);
+    border-right: 1px solid rgba(128,128,128,0.18);
+}
+
+.stDataFrame {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+div[data-testid="stExpander"] {
+    border-radius: 12px;
 }
 
 </style>
