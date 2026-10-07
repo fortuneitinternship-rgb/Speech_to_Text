@@ -300,6 +300,31 @@ if page == "📊 Dashboard":
         else:
             st.info("No events detected yet.")
 
+        st.subheader("📈 Conversation Trend")
+
+        trend_df = df.copy()
+
+        if "timestamp" in trend_df.columns:
+            trend_df["timestamp"] = pd.to_datetime(
+                trend_df["timestamp"],
+                errors="coerce"
+            )
+            trend_df = trend_df.dropna(subset=["timestamp"])
+
+            if not trend_df.empty:
+                trend_df["Date"] = trend_df["timestamp"].dt.date
+                daily_trend = (
+                    trend_df.groupby("Date")
+                    .size()
+                    .rename("Conversations")
+                )
+
+                st.line_chart(daily_trend)
+            else:
+                st.info("Not enough timestamp data for a trend chart.")
+        else:
+            st.info("Timestamp data is not available.")
+
         st.subheader("🕒 Recent Conversations")
         recent = df.head(10)[
             ["id", "timestamp", "transcript", "language", "speaker"]
