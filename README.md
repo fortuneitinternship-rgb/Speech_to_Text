@@ -1,128 +1,202 @@
-## Task 05: Connect Microphone with Python and Capture Voice Input
+# VOXINTEL
+### AI-Powered Multilingual Conversation Intelligence & Memory Engine
 
-### Objective
+VOXINTEL is a Python-based speech and conversation intelligence project that converts spoken input into text, detects language, extracts useful events, analyzes sentiment, and stores conversation information for review and analytics.
 
-To connect the system microphone with Python and capture voice input successfully.
+The project combines speech recognition, natural language processing, SQLite storage, JSON memory, a knowledge graph, and a Streamlit dashboard.
 
-### Implementation
+## Dashboard Preview
 
-The `SpeechRecognition` and `PyAudio` libraries were used to detect and access the microphone. The program adjusts for background noise and listens for the user's voice input.
+![VOXINTEL Dashboard](docs/screenshots/voxintel_dashboard.png)
 
-### Workflow
+## Key Features
 
-1. Detect the available microphone.
-2. Connect Python to the microphone.
-3. Adjust for ambient/background noise.
-4. Listen for voice input.
-5. Capture the user's voice.
-6. Confirm that audio input was received successfully.
+- **Speech-to-Text:** Captures microphone audio and converts speech into text using the SpeechRecognition library and Google Speech Recognition service.
+- **Multilingual Language Detection:** Identifies the language of a transcript. English and Telugu detection have been tested.
+- **Speaker Labeling:** Associates conversations with speaker labels. The current voice pipeline uses a stable session identifier and should not be treated as full multi-speaker diarization.
+- **Event Extraction:** Extracts event information such as meetings, reminders, calls, times, and locations from text.
+- **Sentiment Analysis:** Uses a multilingual Transformer classifier, with a TextBlob fallback when the model is unavailable.
+- **Human Review:** Stores human-reviewed sentiment labels separately from the original AI predictions.
+- **Conversation Memory:** Persists conversation history in JSON.
+- **SQLite Database:** Saves transcripts, language, speaker, events, sentiment, polarity, subjectivity, and model confidence.
+- **Knowledge Graph:** Builds conversation, speaker, language, transcript, and event nodes with relationships.
+- **Analytics Dashboard:** Uses Streamlit to present conversation information, sentiment evaluation, and additional analytics modules.
 
-### Result
+## Processing Architecture
 
-The microphone was successfully detected and connected with Python. Voice input was captured successfully, completing Task 05.
+```text
+Microphone Audio
+       |
+       v
+Speech-to-Text
+       |
+       v
+Language Detection
+       |
+       v
+Speaker Labeling
+       |
+       v
+Event Extraction
+       |
+       +------------------+
+       |                  |
+       v                  v
+ JSON Memory          SQLite Database
+                          |
+             +------------+------------+
+             |            |            |
+             v            v            v
+        Sentiment    Knowledge      Analytics
+        Analysis       Graph
+             |
+             v
+       Human Review
+             |
+             v
+      Evaluation Dashboard
+```
 
-### File Created
+## Technology Stack
 
-`audio/microphone_test.py`
+- Python
+- Streamlit
+- SpeechRecognition and PyAudio
+- Google Speech Recognition service
+- Hugging Face Transformers
+- `tabularisai/multilingual-sentiment-analysis`
+- TextBlob
+- SQLite
+- JSON
+- Pandas and other analytics libraries used by the project
 
-## Task 06: Convert Voice Input into Text
+## Project Structure
 
-### Objective
+```text
+Speech_to_text_translator/
+??? voxintel_dashboard.py
+??? voxintel.db
+??? conversation_memory.json
+??? nlp/
+?   ??? sentiment.py
+??? business/
+?   ??? sales_forecasting.py
+??? voxintel/
+?   ??? voxintel_engine.py
+?   ??? analytics/
+?   ??? database/
+?   ??? intelligence/
+?   ??? knowledge_graph/
+?   ??? language/
+?   ??? memory/
+?   ??? speech/
+??? tests/
+?   ??? test_sentiment_smoke.py
+?   ??? test_storage_integration.py
+?   ??? test_openai_transcription.py
+??? README.md
+```
 
-To convert captured voice input from the microphone into text using Python.
+The database and memory files contain local application data. Do not publish them unless you have reviewed their contents and intentionally want to share them.
 
-### Implementation
+## Setup
 
-The `SpeechRecognition` library and Google Speech Recognition service were used to process the captured audio and convert speech into readable text.
+### 1. Open the project directory
 
-### Workflow
+```powershell
+cd C:\Users\91994\Desktop\Speech_to_text_translator
+```
 
-1. Connect to the microphone.
-2. Adjust for background noise.
-3. Capture the user's voice.
-4. Process the captured audio.
-5. Convert speech into text.
-6. Display the recognized text.
+### 2. Activate the virtual environment
 
-### Result
+If the existing environment is available:
 
-The voice input was successfully captured and converted into text using Python.
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
-### File Created
+### 3. Install dependencies
 
-`audio/speech_to_text.py`
+If the repository contains a maintained `requirements.txt`, install its dependencies:
 
+```powershell
+python -m pip install -r requirements.txt
+```
 
-## Day 6 & 7 – Speech-to-Text Conversion
+The application also uses external speech-recognition and model services. Internet access may be required for speech recognition and for downloading the sentiment model.
 
-### Objective
-Implemented and tested live speech-to-text conversion using Python SpeechRecognition.
+## Run VOXINTEL
 
-### Features
-- Captures voice through the microphone
-- Adjusts for background noise
-- Converts speech into text
-- Displays recognized text
-- Handles no speech and unclear speech
-- Uses timeout and phrase time limits
-- Tested with different voices, speeds, pauses, and background noise
+### Launch the Streamlit dashboard
 
-### Listening Parameters
-- Energy Threshold: 300
-- Pause Threshold: 0.8 seconds
-- Phrase Threshold: 0.3 seconds
-- Timeout: 5 seconds
-- Phrase Time Limit: 10 seconds
+```powershell
+streamlit run .\voxintel_dashboard.py
+```
 
-### Testing
-The system was tested under normal voice, loud voice, low voice, fast speech, slow speech, pauses, background noise, and no-speech conditions.
+Open the local URL printed by Streamlit, typically:
 
-### Result
-Speech-to-text conversion was successfully implemented and tested with appropriate error handling.
+http://localhost:8501
 
+### Run the voice-processing engine
 
-## Task 7 – Language Detection and Basic Text Translation
+```powershell
+python -m voxintel.voxintel_engine
+```
 
-### Objective
+The voice engine records speech, generates a transcript, detects language, extracts events, and saves conversation information to JSON memory and SQLite. It also rebuilds the Knowledge Graph and updates analytics.
 
-Implement language detection and basic text translation for recognized speech text using Python and a translation library/API.
+**Note:** Running the live engine creates a new conversation record. Use the standalone speech-to-text script when you only want to test transcription:
 
-### Languages Tested
+```powershell
+python .\voxintel\speech\speech_to_text.py
+```
 
-* English (`en`)
-* Hindi (`hi`)
-* Marathi (`mr`)
-* Telugu (`te`)
-* Tamil (`ta`)
+## Run Automated Tests
 
-### Test Results
+Run the complete test suite:
 
-#### 1. English → Marathi
+```powershell
+python -m unittest discover -s tests -v
+```
 
-![English to Marathi](Dataset/audio/screenshots/English%20to%20marathi%20text.png)
+The current automated tests cover:
 
-#### 2. Marathi → English
+1. Sentiment classification and language detection.
+2. SQLite conversation save and retrieval.
+3. Conversation memory persistence.
+4. Knowledge Graph integrity.
 
-![Marathi to English](Dataset/audio/screenshots/Marathi%20to%20english%20text.png)
+The OpenAI transcription script is a manual test utility, not an automated unit test.
 
-#### 3. English → Tamil
+## Sentiment Evaluation
 
-![English to Tamil](Dataset/audio/screenshots/english%20to%20tamil%20text.png)
+VOXINTEL compares model predictions against human-reviewed labels and provides a confusion matrix and per-class precision, recall, and F1-score.
 
-#### 4. Hindi → English
+The current development dataset contains 12 reviewed conversations. A conservative Neutral override and self-introduction rules were developed using these same examples. The resulting 100% agreement on those 12 examples is an in-sample result, not an independent estimate of model accuracy.
 
-![Hindi to English](Dataset/audio/screenshots/hindi%20to%20english%20text.png)
+The dataset is imbalanced, so more independently reviewed positive, negative, and neutral examples are needed for meaningful evaluation.
 
-#### 5. Telugu → English & Tamil → English
+## Current Limitations
 
-![Telugu to English and Tamil to English](Dataset/audio/screenshots/telugu%20to%20english%20%26%20Tamil%20to%20english%20text.png)
+- Speech recognition can omit or misrecognize words, especially uncommon project names.
+- Google Speech Recognition depends on network availability.
+- Transformer model downloads can time out when Hugging Face is unreachable.
+- Sentiment overrides are experimental heuristics and may not generalize to unseen text.
+- Language detection and sentiment performance need broader validation across supported languages.
+- Speaker labeling in the current voice pipeline does not establish reliable speaker identity or full diarization.
+- The five automated tests verify selected components, not every dashboard feature or the complete live system under all conditions.
 
-### Implementation Files
+## Future Improvements
 
-* `Dataset/Python/language_detection.py`
-* `Dataset/Python/translator.py`
+- Evaluate stronger speech-recognition models and improve transcription quality.
+- Expand multilingual tests using independently reviewed examples.
+- Validate sentiment rules on unseen data.
+- Improve event extraction and entity resolution.
+- Add broader automated integration tests.
+- Improve deployment configuration, error reporting, and documentation.
 
-### Outcome
+## Project Status
 
-Successfully implemented and tested language detection and basic text translation for multiple languages.
+The current prototype has passed five automated smoke and storage integration tests. The original dataset contains 12 conversations, all 12 with human-reviewed sentiment labels.
 
+VOXINTEL is an ongoing development project. Passing selected tests does not imply production readiness or independently validated model accuracy.
